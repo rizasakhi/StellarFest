@@ -3,6 +3,7 @@ package main;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import view.StageManager;
+import view.admin.AdminHomeView;
 import view.auth.login.LoginView;
 import view.auth.register.RegisterView;
 
@@ -26,6 +27,8 @@ public class Main extends Application {
     private void registerViews() {
         this.stageManager.addScene(new LoginView(this.stageManager));
         this.stageManager.addScene(new RegisterView(this.stageManager));
+
+        this.stageManager.addScene(new AdminHomeView(stageManager));
     }
 
 }

@@ -1,6 +1,7 @@
 package view;
 
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 
 public abstract class SFView {
 
@@ -11,6 +12,8 @@ public abstract class SFView {
     protected SFView(StageManager stageManager) {
         this.stageManager = stageManager;
     }
+
+    protected abstract void prepareView(Pane root);
 
     public static String getViewNameOf(Class<? extends SFView> viewClass) {
         return viewClass.getSimpleName();

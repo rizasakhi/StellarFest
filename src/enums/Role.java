@@ -2,6 +2,7 @@ package enums;
 
 public enum Role {
 
+    ADMIN("Admin"),
     EVENT_ORGANIZER("Event Organizer"),
     VENDOR("Vendor"),
     GUEST("Guest");

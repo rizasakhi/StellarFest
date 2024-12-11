@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.user.User;
+import model.user.impl.AdminUser;
 import model.user.impl.EOUser;
 import model.user.impl.GuestUser;
 import model.user.impl.VendorUser;
@@ -154,6 +155,9 @@ public class LoginView extends SFView {
 
                 User user;
                 switch (role) {
+                    case ADMIN:
+                        user = new AdminUser(id, email, username);
+                        break;
                     case EVENT_ORGANIZER:
                         user = new EOUser(id, email, username);
                         break;

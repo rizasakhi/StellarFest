@@ -192,7 +192,7 @@ public class RegisterView extends SFView {
         row.getChildren().add(label);
 
         this.roleSelector = new ComboBox<>();
-        this.roleSelector.getItems().addAll(List.of("Event Organizer", "Vendor", "Guest"));
+        this.roleSelector.getItems().addAll(List.of("Admin", "Event Organizer", "Vendor", "Guest"));
         this.roleSelector.setPromptText("Select a role");
         row.getChildren().add(this.roleSelector);
 

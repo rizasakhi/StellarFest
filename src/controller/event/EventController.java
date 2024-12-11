@@ -32,7 +32,7 @@ public class EventController {
                 String location = set.getString("location");
                 String description = set.getString("description");
 
-                long organizerId = set.getLong("organizerId");
+                long organizerId = set.getLong("organizer_id");
 
                 events.add(EventController.newEvent(id, name, date, location, description, organizerId));
             }
@@ -53,7 +53,7 @@ public class EventController {
                 String location = set.getString("location");
                 String description = set.getString("description");
 
-                long organizerId = set.getLong("organizerId");
+                long organizerId = set.getLong("organizer_id");
 
                 return EventController.newEvent(id, name, date, location, description, organizerId);
             }
@@ -81,7 +81,7 @@ public class EventController {
                 String location = set.getString("location");
                 String description = set.getString("description");
 
-                long organizerId = set.getLong("organizerId");
+                long organizerId = set.getLong("organizer_id");
 
                 events.add(EventController.newEvent(id, name, date, location, description, organizerId));
             }

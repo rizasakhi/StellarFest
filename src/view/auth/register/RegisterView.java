@@ -1,6 +1,7 @@
 package view.auth.register;
 
 import controller.view.auth.RegisterViewController;
+import enums.Role;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -11,7 +12,8 @@ import javafx.scene.layout.VBox;
 import view.SFView;
 import view.StageManager;
 
-import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RegisterView extends SFView {
 
@@ -141,7 +143,7 @@ public class RegisterView extends SFView {
         row.getChildren().add(label);
 
         this.roleSelector = new ComboBox<>();
-        this.roleSelector.getItems().addAll(List.of("Admin", "Event Organizer", "Vendor", "Guest"));
+        this.roleSelector.getItems().addAll(Stream.of(Role.values()).map(Role::getRole).collect(Collectors.toList()));
         this.roleSelector.setPromptText("Select a role");
         row.getChildren().add(this.roleSelector);
 

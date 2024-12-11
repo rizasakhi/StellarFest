@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Connect {
 
-    private static Connect instance = null;
+    private static volatile Connect instance = null;
 
     private final String username = "root";
     private final String password = "";

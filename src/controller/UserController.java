@@ -107,10 +107,10 @@ public class UserController {
         return null;
     }
 
-    public static boolean isUnique(String column, String value) {
-        String query = "SELECT * FROM users WHERE " + column + " = ?";
+    public static boolean isDuplicate(String column, String value) {
+        String query = "SELECT " + column + " FROM users WHERE " + column + " = ?";
         try (Results results = Connect.getInstance().executeQuery(query, value)) {
-            return !results.getResultSet().next();
+            return results.getResultSet().next();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

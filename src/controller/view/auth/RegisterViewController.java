@@ -21,7 +21,7 @@ public class RegisterViewController {
             return;
         }
 
-        if (UserController.isUnique("email", email)) {
+        if (UserController.isDuplicate("email", email)) {
             AlertUtil.showError("Email is already taken", "Please enter a different email");
             return;
         }
@@ -31,7 +31,7 @@ public class RegisterViewController {
             return;
         }
 
-        if (UserController.isUnique("username", username)) {
+        if (UserController.isDuplicate("username", username)) {
             AlertUtil.showError("Username is already taken", "Please enter a different username");
             return;
         }

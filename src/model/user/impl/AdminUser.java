@@ -2,6 +2,7 @@ package model.user.impl;
 
 import model.user.User;
 import view.SFView;
+import view.admin.AdminHomeView;
 
 public class AdminUser extends User {
     public AdminUser(long id) {
@@ -14,6 +15,6 @@ public class AdminUser extends User {
 
     @Override
     public Class<? extends SFView> getHomeView() {
-        return null;
+        return AdminHomeView.class;
     }
 }

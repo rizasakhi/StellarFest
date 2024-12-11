@@ -3,6 +3,7 @@ package view.auth.register;
 import driver.Connect;
 import driver.Results;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -36,9 +37,10 @@ public class RegisterView extends SFView {
     protected void prepareView(Pane root) {
         VBox formContainer = new VBox(15);
         formContainer.setPadding(new Insets(20));
+        formContainer.setAlignment(Pos.CENTER);
 
         Label titleLabel = new Label("Register");
-        titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         formContainer.getChildren().add(titleLabel);
 
         HBox emailRow = this.createEmailInput();
@@ -56,8 +58,8 @@ public class RegisterView extends SFView {
         Button registerButton = this.createRegisterButton();
         formContainer.getChildren().add(registerButton);
 
-        Button loginRedirectButton = this.createLoginRedirectButton();
-        formContainer.getChildren().add(loginRedirectButton);
+        Label loginRedirectLabel = this.createLoginRedirectLabel();
+        formContainer.getChildren().add(loginRedirectLabel);
 
         BorderPane borderPane = (BorderPane) root;
         borderPane.setCenter(formContainer);
@@ -123,20 +125,26 @@ public class RegisterView extends SFView {
         return registerButton;
     }
 
-    private Button createLoginRedirectButton() {
-        Button loginRedirectButton = new Button("Already have an account? Login");
-        loginRedirectButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px;");
-        loginRedirectButton.setPrefWidth(200);
+    private Label createLoginRedirectLabel() {
+        Label loginRedirectLabel = new Label("Already have an account? Login");
+        loginRedirectLabel.setStyle("-fx-text-fill: #2196F3; -fx-font-size: 14px;");
+        loginRedirectLabel.setPrefWidth(200);
 
-        loginRedirectButton.setOnMouseClicked(e -> {
+        loginRedirectLabel.setOnMouseClicked(e -> {
             this.stageManager.switchScene(SFView.getViewNameOf(LoginView.class));
         });
 
-        return loginRedirectButton;
+        loginRedirectLabel.setOnMouseEntered(e -> {
+            loginRedirectLabel.setStyle("-fx-text-fill: #1976D2; -fx-font-size: 14px; -fx-underline: true;");
+        });
+
+        return loginRedirectLabel;
     }
 
     private HBox createEmailInput() {
         HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER);
+
         Label label = new Label("Email");
         label.setMinWidth(100);
         row.getChildren().add(label);
@@ -149,6 +157,8 @@ public class RegisterView extends SFView {
 
     private HBox createUsernameInput() {
         HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER);
+
         Label label = new Label("Username");
         label.setMinWidth(100);
         row.getChildren().add(label);
@@ -161,6 +171,8 @@ public class RegisterView extends SFView {
 
     private HBox createPasswordInput() {
         HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER);
+
         Label label = new Label("Password");
         label.setMinWidth(100);
         row.getChildren().add(label);
@@ -173,6 +185,8 @@ public class RegisterView extends SFView {
 
     private HBox createRoleSelector() {
         HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER);
+
         Label label = new Label("Role");
         label.setMinWidth(100);
         row.getChildren().add(label);

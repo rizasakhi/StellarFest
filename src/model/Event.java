@@ -1,5 +1,11 @@
 package model;
 
+import model.join.JoinField;
+import model.join.JoinFields;
+import model.user.impl.EOUser;
+import model.user.impl.GuestUser;
+import model.user.impl.VendorUser;
+
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -10,6 +16,11 @@ public class Event {
     private ZonedDateTime date;
     private String location;
     private String description;
+
+    private JoinField<EOUser> organizer;
+    private JoinFields<Invitation> invitations;
+    private JoinFields<GuestUser> guests;
+    private JoinFields<VendorUser> vendors;
 
     public Event(long id) {
         this.id = id;
@@ -59,6 +70,38 @@ public class Event {
         this.description = description;
     }
 
+    public JoinField<EOUser> getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(JoinField<EOUser> organizer) {
+        this.organizer = organizer;
+    }
+
+    public JoinFields<Invitation> getInvitations() {
+        return invitations;
+    }
+
+    public void setInvitations(JoinFields<Invitation> invitations) {
+        this.invitations = invitations;
+    }
+
+    public JoinFields<GuestUser> getGuests() {
+        return guests;
+    }
+
+    public void setGuests(JoinFields<GuestUser> guests) {
+        this.guests = guests;
+    }
+
+    public JoinFields<VendorUser> getVendors() {
+        return vendors;
+    }
+
+    public void setVendors(JoinFields<VendorUser> vendors) {
+        this.vendors = vendors;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -67,6 +110,10 @@ public class Event {
                 ", date=" + date +
                 ", location='" + location + '\'' +
                 ", description='" + description + '\'' +
+                ", organizer='" + organizer.getId() + '\'' +
+                ", invitations='" + invitations.getIds() + '\'' +
+                ", guests='" + guests.getIds() + '\'' +
+                ", vendors='" + vendors.getIds() + '\'' +
                 '}';
     }
 

@@ -1,5 +1,6 @@
 package view.admin;
 
+import controller.view.admin.AdminHomeViewController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -42,7 +43,7 @@ public class AdminHomeView extends SFView {
         button.setPrefWidth(200);
 
         button.setOnMouseClicked(e -> {
-            //
+            AdminHomeViewController.handleManageEventRedirect();
         });
 
         return button;
@@ -53,7 +54,7 @@ public class AdminHomeView extends SFView {
         button.setPrefWidth(200);
 
         button.setOnMouseClicked(e -> {
-            //
+            AdminHomeViewController.handleManageUserRedirect();
         });
 
         return button;

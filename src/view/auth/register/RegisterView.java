@@ -1,7 +1,6 @@
 package view.auth.register;
 
-import driver.Connect;
-import driver.Results;
+import controller.view.auth.RegisterViewController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -9,10 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import util.AlertUtil;
 import view.SFView;
 import view.StageManager;
-import view.auth.login.LoginView;
 
 import java.util.List;
 
@@ -71,55 +68,7 @@ public class RegisterView extends SFView {
         registerButton.setPrefWidth(200);
 
         registerButton.setOnMouseClicked(e -> {
-            String email = this.emailInput.getText();
-            String username = this.usernameInput.getText();
-            String password = this.passwordInput.getText();
-            String role = this.roleSelector.getValue();
-
-            if (email.isEmpty()) {
-                AlertUtil.showError("Email is required", "Please enter your email");
-                return;
-            }
-
-            if (this.isUnique("email", email)) {
-                AlertUtil.showError("Email is already taken", "Please enter a different email");
-                return;
-            }
-
-            if (username.isEmpty()) {
-                AlertUtil.showError("Username is required", "Please enter your username");
-                return;
-            }
-
-            if (this.isUnique("username", username)) {
-                AlertUtil.showError("Username is already taken", "Please enter a different username");
-                return;
-            }
-
-            if (password.isEmpty()) {
-                AlertUtil.showError("Password is required", "Please enter your password");
-                return;
-            }
-
-            if (password.length() < 5) {
-                AlertUtil.showError("Password is too short", "Please enter a password with at least 5 characters");
-                return;
-            }
-
-            if (role == null) {
-                AlertUtil.showError("Role is required", "Please select a role");
-                return;
-            }
-
-            boolean registered = this.registerUser(email, username, password, role);
-            if (!registered) {
-                AlertUtil.showError("Registration failed", "An error occurred while registering your account");
-                return;
-            }
-
-            AlertUtil.showInfo("Registration successful", "Your account has been registered successfully", () -> {
-                this.stageManager.switchScene(SFView.getViewNameOf(LoginView.class));
-            });
+            RegisterViewController.handleRegister(this.emailInput, this.usernameInput, this.passwordInput, this.roleSelector);
         });
 
         return registerButton;
@@ -131,7 +80,7 @@ public class RegisterView extends SFView {
         loginRedirectLabel.setPrefWidth(200);
 
         loginRedirectLabel.setOnMouseClicked(e -> {
-            this.stageManager.switchScene(SFView.getViewNameOf(LoginView.class));
+            RegisterViewController.handleLoginRedirect();
         });
 
         loginRedirectLabel.setOnMouseEntered(e -> {
@@ -197,25 +146,6 @@ public class RegisterView extends SFView {
         row.getChildren().add(this.roleSelector);
 
         return row;
-    }
-
-    private boolean isUnique(String column, String value) {
-        String query = "SELECT * FROM users WHERE " + column + " = ?";
-        try (Results results = Connect.getInstance().executeQuery(query, value)) {
-            return !results.getResultSet().next();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private boolean registerUser(String email, String username, String password, String role) {
-        String query = "INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)";
-        try {
-            Connect.getInstance().executeUpdate(query, email, username, password, role);
-            return true;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

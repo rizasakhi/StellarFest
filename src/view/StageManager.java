@@ -9,12 +9,20 @@ import java.util.Map;
 
 public class StageManager {
 
+    private static volatile StageManager instance;
+
     private final Stage primaryStage;
     private final Map<String, SFView> sceneMap;
 
     public StageManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.sceneMap = new HashMap<>();
+
+        instance = this;
+    }
+
+    public static StageManager getInstance() {
+        return instance;
     }
 
     public void addScene(SFView scene) {

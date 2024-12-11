@@ -1,6 +1,6 @@
 package view.admin;
 
-import driver.Connect;
+import controller.view.admin.UserManagementViewController;
 import enums.Role;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -17,7 +17,6 @@ import model.user.User;
 import model.user.impl.AdminUser;
 import model.user.impl.EOUser;
 import model.user.impl.VendorUser;
-import util.AlertUtil;
 import view.SFView;
 import view.StageManager;
 
@@ -31,6 +30,7 @@ public class UserManagementView extends SFView {
         BorderPane root = new BorderPane();
 
         this.prepareView(root);
+        UserManagementViewController.loadUsers(users);
 
         this.windowTitle = "Manage Users";
         this.scene = stageManager.getSceneFactory().createScene(root);
@@ -43,10 +43,9 @@ public class UserManagementView extends SFView {
         this.userTable = createUserTable();
         borderPane.setCenter(userTable);
 
-
         Button deleteButton = new Button("Delete Selected User");
         deleteButton.setStyle("-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-size: 14px;");
-        deleteButton.setOnAction(event -> deleteSelectedUser());
+        deleteButton.setOnAction(e -> UserManagementViewController.handleDeleteSelectedUser(userTable, users));
 
         HBox buttonContainer = new HBox(deleteButton);
         buttonContainer.setAlignment(Pos.CENTER);
@@ -74,27 +73,6 @@ public class UserManagementView extends SFView {
         tableView.setItems(users);
 
         return tableView;
-    }
-
-    private void deleteSelectedUser() {
-        User selectedUser = userTable.getSelectionModel().getSelectedItem();
-        if (selectedUser == null) {
-            AlertUtil.showError("No user selected", "Please select a user to delete");
-            return;
-        }
-
-        try {
-            int update = Connect.getInstance().executeUpdate("DELETE FROM users WHERE id = " + selectedUser.getId());
-            if (update <= 0) {
-                AlertUtil.showError("Error deleting user", "No user was deleted");
-                return;
-            }
-
-            users.remove(selectedUser);
-        } catch (Exception e) {
-            e.printStackTrace();
-            AlertUtil.showError("Error deleting user", "An error occurred while deleting the user");
-        }
     }
 
     private String getRole(User user) {

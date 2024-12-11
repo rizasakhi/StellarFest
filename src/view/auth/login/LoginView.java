@@ -1,9 +1,6 @@
 package view.auth.login;
 
-import datastore.UserDatastore;
-import driver.Connect;
-import driver.Results;
-import enums.Role;
+import controller.view.auth.LoginViewController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,17 +11,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import model.user.User;
-import model.user.impl.AdminUser;
-import model.user.impl.EOUser;
-import model.user.impl.GuestUser;
-import model.user.impl.VendorUser;
-import util.AlertUtil;
 import view.SFView;
 import view.StageManager;
-import view.auth.register.RegisterView;
-
-import java.sql.ResultSet;
 
 public class LoginView extends SFView {
 
@@ -73,26 +61,7 @@ public class LoginView extends SFView {
         registerButton.setPrefWidth(200);
 
         registerButton.setOnMouseClicked(e -> {
-            String email = this.emailInput.getText();
-            String password = this.passwordInput.getText();
-
-            if (email.isEmpty()) {
-                AlertUtil.showError("Email is required", "Please enter your email");
-                return;
-            }
-
-            if (password.isEmpty()) {
-                AlertUtil.showError("Password is required", "Please enter your password");
-                return;
-            }
-
-            User user;
-            if ((user = this.loginUser(email, password)) == null) {
-                AlertUtil.showError("Login failed", "Invalid email or password");
-                return;
-            }
-
-            this.stageManager.switchScene(SFView.getViewNameOf(user.getHomeView()));
+            LoginViewController.handleLogin(this.emailInput, this.passwordInput);
         });
 
         return registerButton;
@@ -103,7 +72,7 @@ public class LoginView extends SFView {
         registerRedirectLabel.setStyle("-fx-text-fill: #2196F3; -fx-font-size: 14px;");
 
         registerRedirectLabel.setOnMouseClicked(e -> {
-            this.stageManager.switchScene(SFView.getViewNameOf(RegisterView.class));
+            LoginViewController.handleRegisterRedirect();
         });
 
         registerRedirectLabel.setOnMouseEntered(e -> {
@@ -139,45 +108,6 @@ public class LoginView extends SFView {
         row.getChildren().add(this.passwordInput);
 
         return row;
-    }
-
-    private User loginUser(String email, String password) {
-        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
-        try (Results results = Connect.getInstance().executeQuery(query, email, password)) {
-            ResultSet set = results.getResultSet();
-            if (set.next()) {
-                long id = set.getLong("id");
-                String username = set.getString("username");
-                String roleString = set.getString("role");
-
-                Role role = Role.getRole(roleString);
-                assert role != null;
-
-                User user;
-                switch (role) {
-                    case ADMIN:
-                        user = new AdminUser(id, email, username);
-                        break;
-                    case EVENT_ORGANIZER:
-                        user = new EOUser(id, email, username);
-                        break;
-                    case VENDOR:
-                        user = new VendorUser(id, email, username);
-                        break;
-                    case GUEST:
-                        user = new GuestUser(id, email, username);
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + role);
-                }
-
-                UserDatastore.getInstance().setCurrentUser(user);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
 }

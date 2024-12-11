@@ -17,6 +17,26 @@ import java.util.List;
 
 public class UserController {
 
+    public static List<User> getAll() {
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM users";
+        try (Results results = Connect.getInstance().executeQuery(query)) {
+            ResultSet set = results.getResultSet();
+            while (set.next()) {
+                long id = set.getLong("id");
+                String email = set.getString("email");
+                String username = set.getString("username");
+                String role = set.getString("role");
+
+                users.add(UserController.newUser(id, email, username, role));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return users;
+    }
+
     public static User getOne(long id) {
         String query = "SELECT * FROM users WHERE id = ?";
         try (Results results = Connect.getInstance().executeQuery(query, id)) {

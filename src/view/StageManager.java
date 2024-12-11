@@ -17,8 +17,13 @@ public class StageManager {
         this.sceneMap = new HashMap<>();
     }
 
-    public void addScene(String name, SFView scene) {
-        sceneMap.put(name, scene);
+    public void addScene(SFView scene) {
+        sceneMap.put(scene.getViewName(), scene);
+    }
+
+    public void switchScene(Class<? extends SFView> viewClass) {
+        String viewName = SFView.getViewNameOf(viewClass);
+        switchScene(viewName);
     }
 
     public void switchScene(String name) {

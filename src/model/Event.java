@@ -2,9 +2,8 @@ package model;
 
 import model.join.JoinField;
 import model.join.JoinFields;
+import model.user.User;
 import model.user.impl.EOUser;
-import model.user.impl.GuestUser;
-import model.user.impl.VendorUser;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -19,8 +18,7 @@ public class Event {
 
     private JoinField<EOUser> organizer;
     private JoinFields<Invitation> invitations;
-    private JoinFields<GuestUser> guests;
-    private JoinFields<VendorUser> vendors;
+    private JoinFields<User> attendees;
 
     public Event(long id) {
         this.id = id;
@@ -86,20 +84,12 @@ public class Event {
         this.invitations = invitations;
     }
 
-    public JoinFields<GuestUser> getGuests() {
-        return guests;
+    public JoinFields<User> getAttendees() {
+        return attendees;
     }
 
-    public void setGuests(JoinFields<GuestUser> guests) {
-        this.guests = guests;
-    }
-
-    public JoinFields<VendorUser> getVendors() {
-        return vendors;
-    }
-
-    public void setVendors(JoinFields<VendorUser> vendors) {
-        this.vendors = vendors;
+    public void setAttendees(JoinFields<User> attendees) {
+        this.attendees = attendees;
     }
 
     @Override
@@ -112,8 +102,7 @@ public class Event {
                 ", description='" + description + '\'' +
                 ", organizer='" + organizer.getId() + '\'' +
                 ", invitations='" + invitations.getIds() + '\'' +
-                ", guests='" + guests.getIds() + '\'' +
-                ", vendors='" + vendors.getIds() + '\'' +
+                ", attendees='" + attendees.getIds() + '\'' +
                 '}';
     }
 

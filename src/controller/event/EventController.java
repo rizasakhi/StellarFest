@@ -8,9 +8,8 @@ import model.Event;
 import model.Invitation;
 import model.join.JoinField;
 import model.join.JoinFields;
+import model.user.User;
 import model.user.impl.EOUser;
-import model.user.impl.GuestUser;
-import model.user.impl.VendorUser;
 
 import java.sql.ResultSet;
 import java.time.ZonedDateTime;
@@ -102,13 +101,9 @@ public class EventController {
         JoinFields<Invitation> invites = new JoinFields<>(invitations, () -> InvitationController.getMany(invitations));
         event.setInvitations(invites);
 
-        List<Long> guests = EventGuestController.getGuestsForEvent(id);
-        JoinFields<GuestUser> guestUsers = new JoinFields<>(guests, () -> EventGuestController.getMany(guests));
-        event.setGuests(guestUsers);
-
-        List<Long> vendors = EventVendorController.getVendorsForEvent(id);
-        JoinFields<VendorUser> vendorUsers = new JoinFields<>(vendors, () -> EventVendorController.getMany(vendors));
-        event.setVendors(vendorUsers);
+        List<Long> attendees = EventAttendeeController.getAttendeesForEvent(id);
+        JoinFields<User> attendeeUsers = new JoinFields<>(attendees, () -> UserController.getMany(attendees));
+        event.setAttendees(attendeeUsers);
 
         return event;
     }

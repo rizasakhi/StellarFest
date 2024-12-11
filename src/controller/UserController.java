@@ -74,7 +74,7 @@ public class UserController {
                 users.add(UserController.newUser(id, email, username, role));
             }
         } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch EOUsers with ids: " + ids, e);
+            throw new RuntimeException("Failed to fetch Users with ids: " + ids, e);
         }
 
         return users;

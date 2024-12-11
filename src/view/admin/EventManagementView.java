@@ -73,14 +73,14 @@ public class EventManagementView extends SFView implements Refreshable {
         nameColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getName()));
 
         TableColumn<Event, String> dateColumn = new TableColumn<>("Date");
-        nameColumn.setCellValueFactory(cellData ->
+        dateColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(DateUtil.formatDate(cellData.getValue().getDate(), DateUtil.DATE_FORMAT)));
 
         TableColumn<Event, String> locationColumn = new TableColumn<>("Location");
-        nameColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(StringUtil.truncate(cellData.getValue().getLocation(), 200)));
+        locationColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(StringUtil.truncate(cellData.getValue().getLocation(), 200)));
 
         TableColumn<Event, String> descriptionColumn = new TableColumn<>("Description");
-        nameColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(StringUtil.truncate(cellData.getValue().getDescription(), 200)));
+        descriptionColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(StringUtil.truncate(cellData.getValue().getDescription(), 200)));
 
         tableView.getColumns().addAll(idColumn, nameColumn, dateColumn, locationColumn, descriptionColumn);
         tableView.setItems(events);
@@ -141,6 +141,9 @@ public class EventManagementView extends SFView implements Refreshable {
     private HBox createAttendeeDetailRow(List<User> attendees) {
         Label label = new Label("Attendees:");
         label.setStyle("-fx-font-weight: bold; -fx-min-width: 100px;");
+
+        System.out.println("Attendees size: " + attendees.size());
+        System.out.println("Attendees: " + attendees);
 
         VBox vendorDetails = new VBox(5);
         Label vendorLabel = new Label("Vendors:");

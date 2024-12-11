@@ -21,13 +21,14 @@ import model.user.impl.GuestUser;
 import model.user.impl.VendorUser;
 import util.DateUtil;
 import util.StringUtil;
+import view.Refreshable;
 import view.SFView;
 import view.StageManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EventManagementView extends SFView {
+public class EventManagementView extends SFView implements Refreshable {
 
     private final ObservableList<Event> events = FXCollections.observableArrayList();
     private TableView<Event> eventTable;
@@ -37,10 +38,14 @@ public class EventManagementView extends SFView {
         BorderPane root = new BorderPane();
 
         this.prepareView(root);
-        EventManagementViewController.loadEvents(events);
 
         this.windowTitle = "Manage Events";
         this.scene = stageManager.getSceneFactory().createScene(root);
+    }
+
+    @Override
+    public void refreshData() {
+        EventManagementViewController.loadEvents(events);
     }
 
     @Override

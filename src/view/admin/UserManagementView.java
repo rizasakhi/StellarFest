@@ -17,10 +17,11 @@ import model.user.User;
 import model.user.impl.AdminUser;
 import model.user.impl.EOUser;
 import model.user.impl.VendorUser;
+import view.Refreshable;
 import view.SFView;
 import view.StageManager;
 
-public class UserManagementView extends SFView {
+public class UserManagementView extends SFView implements Refreshable {
 
     private final ObservableList<User> users = FXCollections.observableArrayList();
     private TableView<User> userTable;
@@ -30,10 +31,14 @@ public class UserManagementView extends SFView {
         BorderPane root = new BorderPane();
 
         this.prepareView(root);
-        UserManagementViewController.loadUsers(users);
 
         this.windowTitle = "Manage Users";
         this.scene = stageManager.getSceneFactory().createScene(root);
+    }
+
+    @Override
+    public void refreshData() {
+        UserManagementViewController.loadUsers(users);
     }
 
     @Override

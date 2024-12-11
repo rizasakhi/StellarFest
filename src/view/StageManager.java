@@ -40,6 +40,10 @@ public class StageManager {
             throw new IllegalArgumentException("No scene with name " + name);
         }
 
+        if (sfView instanceof Refreshable) {
+            ((Refreshable) sfView).refreshData();
+        }
+
         primaryStage.setScene(sfView.getScene());
         primaryStage.setTitle(sfView.getWindowTitle());
         primaryStage.show();

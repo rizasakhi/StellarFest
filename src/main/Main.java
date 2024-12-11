@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import view.StageManager;
 import view.admin.AdminHomeView;
+import view.admin.EventManagementView;
 import view.admin.UserManagementView;
 import view.auth.login.LoginView;
 import view.auth.register.RegisterView;
@@ -31,6 +32,7 @@ public class Main extends Application {
 
         this.stageManager.addScene(new AdminHomeView(stageManager));
         this.stageManager.addScene(new UserManagementView(stageManager));
+        this.stageManager.addScene(new EventManagementView(stageManager));
     }
 
 }
